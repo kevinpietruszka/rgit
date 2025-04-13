@@ -1,4 +1,7 @@
 use clap::{Parser, Subcommand};
+use subcommand::Runnable;
+mod constants;
+mod subcommand;
 
 #[derive(Parser)]
 struct Cli {
@@ -8,15 +11,17 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    Init
+    Init,
 }
 
-fn main() {
+fn main() -> Result<(), std::io::Error> {
     let cli = Cli::parse();
 
     match cli.command {
         Commands::Init => {
-            println!("Initializing the repository");
+            let cmd = subcommand::init::InitCommand::new();
+            cmd.run()?
         }
     }
+    Ok(())
 }
