@@ -17,11 +17,8 @@ enum Commands {
 fn main() -> Result<(), std::io::Error> {
     let cli = Cli::parse();
 
-    match cli.command {
-        Commands::Init => {
-            let cmd = subcommand::init::InitCommand::new();
-            cmd.run()?
-        }
-    }
-    Ok(())
+    let cmd = match cli.command {
+        Commands::Init => { subcommand::init::InitCommand::new() }
+    };
+    cmd.run()
 }
