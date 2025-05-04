@@ -14,11 +14,19 @@ enum Commands {
     Init,
 }
 
-fn main() -> Result<(), std::io::Error> {
+fn main() {
     let cli = Cli::parse();
 
     let cmd = match cli.command {
-        Commands::Init => { subcommand::init::InitCommand::new() }
+        Commands::Init => subcommand::init::InitCommand::new(),
     };
-    cmd.run()
+    match cmd.run() {
+        Ok(s) => {
+            println!("Success: {s}");
+        }
+        Err(e) => {
+            let message = e.to_string();
+            println!("Error: {message}");
+        }
+    }
 }

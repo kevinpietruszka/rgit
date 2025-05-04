@@ -12,8 +12,10 @@ impl InitCommand {
 }
 
 impl Runnable for InitCommand {
-    fn run(&self) -> Result<(), std::io::Error> {
-        fs::create_dir(RGIT_DIR)?;
-        Ok(())
+    fn run(&self) -> std::io::Result<String> {
+        match fs::create_dir(RGIT_DIR) {
+            Ok(()) => Ok("Initialized empty rgit repository.".to_string()),
+            Err(e) => Err(e),
+        }
     }
 }

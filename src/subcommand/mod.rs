@@ -1,5 +1,5 @@
 pub mod init;
 
 pub trait Runnable {
-    fn run(&self) -> Result<(), std::io::Error>;
+    fn run(&self) -> std::io::Result<String>;
 }
