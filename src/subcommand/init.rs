@@ -1,7 +1,5 @@
-use crate::constants::RGIT_DIR;
+use crate::constants::{RGIT_DIR, RgitCommand, RgitResult};
 use std::fs;
-
-use super::Runnable;
 
 pub struct InitCommand {}
 
@@ -11,11 +9,19 @@ impl InitCommand {
     }
 }
 
-impl Runnable for InitCommand {
-    fn run(&self) -> std::io::Result<String> {
+impl RgitCommand for InitCommand {
+    fn run(&self) -> Vec<RgitResult> {
+        let mut output = vec![];
+
         match fs::create_dir(RGIT_DIR) {
-            Ok(()) => Ok("Initialized empty rgit repository.".to_string()),
-            Err(e) => Err(e),
+            Ok(()) => output.push(RgitResult::Success(
+                "Successfully created a rgit repository".to_string(),
+            )),
+            Err(e) => output.push(RgitResult::Fatal(
+                "Failure to create the repository".to_string(),
+            )),
         }
+
+        return output;
     }
 }

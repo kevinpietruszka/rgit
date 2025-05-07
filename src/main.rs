@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use subcommand::Runnable;
+use constants::RgitCommand;
 mod constants;
 mod subcommand;
 
@@ -20,13 +20,8 @@ fn main() {
     let cmd = match cli.command {
         Commands::Init => subcommand::init::InitCommand::new(),
     };
-    match cmd.run() {
-        Ok(s) => {
-            println!("Success: {s}");
-        }
-        Err(e) => {
-            let message = e.to_string();
-            println!("Error: {message}");
-        }
+    let results = cmd.run();
+    for result in &results {
+        println!("{}", result);
     }
 }
