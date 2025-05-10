@@ -1,4 +1,6 @@
-use crate::constants::{RGIT_DIR, RgitCommand, RgitResult};
+use crate::command::RgitCommand;
+use crate::constants::{RGIT_DIR};
+use crate::result::RgitResult;
 use std::fs;
 
 pub struct InitCommand {}
@@ -10,18 +12,10 @@ impl InitCommand {
 }
 
 impl RgitCommand for InitCommand {
-    fn run(&self) -> Vec<RgitResult> {
-        let mut output = vec![];
-
+    fn run(&self) -> RgitResult {
         match fs::create_dir(RGIT_DIR) {
-            Ok(()) => output.push(RgitResult::Success(
-                "Successfully created a rgit repository".to_string(),
-            )),
-            Err(e) => output.push(RgitResult::Fatal(
-                "Failure to create the repository".to_string(),
-            )),
+            Ok(()) => RgitResult::Success(format!("Created repository in {} directory", RGIT_DIR)),
+            Err(e) => RgitResult::Fatal(format!("Could not create the repository with error ({})", e)),
         }
-
-        return output;
     }
 }

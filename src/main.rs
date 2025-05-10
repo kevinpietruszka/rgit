@@ -1,6 +1,8 @@
+use crate::command::RgitCommand;
 use clap::{Parser, Subcommand};
-use constants::RgitCommand;
 mod constants;
+mod command;
+mod result;
 mod subcommand;
 
 #[derive(Parser)]
@@ -20,8 +22,6 @@ fn main() {
     let cmd = match cli.command {
         Commands::Init => subcommand::init::InitCommand::new(),
     };
-    let results = cmd.run();
-    for result in &results {
-        println!("{}", result);
-    }
+    let result = cmd.run();
+    println!("{}", result);
 }
