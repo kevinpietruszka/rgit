@@ -1,9 +1,11 @@
 use crate::command::RgitCommand;
 use clap::{Parser, Subcommand};
-mod constants;
+
 mod command;
+mod constants;
 mod result;
 mod subcommand;
+mod utils;
 
 #[derive(Parser)]
 struct Cli {
